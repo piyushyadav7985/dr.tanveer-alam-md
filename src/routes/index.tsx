@@ -25,6 +25,15 @@ import {
   Quote,
 } from "lucide-react";
 import doctorAsset from "@/assets/dr-tanveer.png.asset.json";
+import {
+  Reveal,
+  Stagger,
+  staggerChild,
+  Counter,
+  Magnetic,
+  Particles,
+  GradientGlow,
+} from "@/components/motion-fx";
 
 const PHONE = "+919161031401";
 const PHONE_DISPLAY = "+91 91610 31401";
