@@ -23,7 +23,6 @@ import {
   Clock,
   Quote,
 } from "lucide-react";
-import doctorAsset from "https://i.ibb.co/DDFZ406D/Screenshot-2026-06-10-001839.png";
 import {
   Reveal,
   Stagger,
@@ -40,7 +39,7 @@ const WHATSAPP = "919161031401";
 const ADDRESS = "Dasharibag, Rasoolpur, Gorakhnath, Gorakhpur, Uttar Pradesh";
 const MAPS_URL =
   "https://www.google.com/maps/place/Dr.Tanveer+Alam+(MD)+medicine/@26.7741222,83.3523423,17z";
-const DOCTOR_IMAGE = doctorAsset.url;
+const DOCTOR_IMAGE = "https://i.ibb.co/DDFZ406D/Screenshot-2026-06-10-001839.png";
 
 // ───────────────────────── helpers ─────────────────────────
 const services = [
