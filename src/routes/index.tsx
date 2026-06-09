@@ -25,6 +25,15 @@ import {
   Quote,
 } from "lucide-react";
 import doctorAsset from "@/assets/dr-tanveer.png.asset.json";
+import {
+  Reveal,
+  Stagger,
+  staggerChild,
+  Counter,
+  Magnetic,
+  Particles,
+  GradientGlow,
+} from "@/components/motion-fx";
 
 const PHONE = "+919161031401";
 const PHONE_DISPLAY = "+91 91610 31401";
@@ -207,16 +216,24 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
-    <section id="top" ref={ref} className="relative overflow-hidden">
-      {/* subtle medical pattern */}
+    <section id="top" ref={ref} className="relative overflow-hidden noise-overlay">
+      {/* layered radial wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.45]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.55]"
         style={{
           background:
-            "radial-gradient(60% 50% at 80% 0%, color-mix(in oklab, var(--color-primary) 10%, transparent), transparent 60%), radial-gradient(50% 40% at 0% 100%, color-mix(in oklab, var(--color-gold) 12%, transparent), transparent 60%)",
+            "radial-gradient(60% 50% at 80% 0%, color-mix(in oklab, var(--color-primary) 14%, transparent), transparent 60%), radial-gradient(50% 40% at 0% 100%, color-mix(in oklab, var(--color-gold) 14%, transparent), transparent 60%)",
         }}
       />
+      {/* animated glow blobs */}
+      <GradientGlow className="-z-10 -top-32 -right-32 h-[520px] w-[520px]" />
+      <GradientGlow
+        className="-z-10 -bottom-40 -left-32 h-[460px] w-[460px]"
+        from="var(--color-gold)"
+        to="var(--color-secondary)"
+      />
+      {/* grid pattern */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.05]"
@@ -228,25 +245,36 @@ function Hero() {
             "radial-gradient(ellipse at center, black 30%, transparent 75%)",
         }}
       />
+      {/* floating particles */}
+      <Particles count={26} className="-z-10" />
 
       <div className="container-luxe grid items-center gap-10 py-14 md:grid-cols-12 md:gap-12 md:py-24 lg:py-28">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
           className="md:col-span-7"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-secondary">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-secondary backdrop-blur"
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
+            </span>
             Trusted Physician · Gorakhpur
-          </div>
+          </motion.div>
 
-          <h1 className="mt-6 font-display text-[42px] font-700 leading-[1.04] tracking-tight text-foreground text-balance md:text-[64px] lg:text-[76px]">
-            Dr. Tanveer Alam
+          <h1 className="mt-6 font-display text-[42px] font-700 leading-[1.04] tracking-tight text-balance md:text-[64px] lg:text-[76px]">
+            <span className="text-gradient-gold">Dr. Tanveer Alam</span>
             <span className="mt-2 block text-[18px] font-500 tracking-[0.18em] text-secondary uppercase md:text-[15px]">
               MD · Medicine
             </span>
           </h1>
+
 
           <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-muted-foreground md:text-[18px]">
             Precise diagnosis. Evidence-based treatment. A calmer, more
@@ -263,40 +291,53 @@ function Hero() {
 
           {/* CTAs */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#appointment"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.02]"
-            >
-              Book an Appointment
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href={`tel:${PHONE}`}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-background px-6 py-3.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-            >
-              <Phone className="h-4 w-4" /> {PHONE_DISPLAY}
-            </a>
+            <Magnetic strength={0.3} className="inline-block">
+              <a
+                href="#appointment"
+                className="btn-glow group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.03]"
+              >
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                Book an Appointment
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.2} className="inline-block">
+              <a
+                href={`tel:${PHONE}`}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-background/80 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur transition-all hover:bg-muted hover:scale-[1.02]"
+              >
+                <Phone className="h-4 w-4" /> {PHONE_DISPLAY}
+              </a>
+            </Magnetic>
           </div>
         </motion.div>
 
         {/* Right — portrait */}
         <motion.div
           style={{ y }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, scale: 0.92, filter: "blur(12px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           className="relative md:col-span-5"
         >
           <div className="relative mx-auto aspect-[4/5] w-full max-w-[440px]">
+            {/* rotating conic glow ring */}
+            <div className="absolute -inset-6 rounded-[32px] opacity-60 blur-2xl animate-spin-slow"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, color-mix(in oklab, var(--color-gold) 60%, transparent), color-mix(in oklab, var(--color-primary) 50%, transparent), color-mix(in oklab, var(--color-gold) 60%, transparent))",
+              }}
+            />
             {/* gold frame accent */}
-            <div className="absolute -inset-3 rounded-[28px] border border-gold/30" />
+            <div className="absolute -inset-3 rounded-[28px] border border-gold/40" />
             <div
               className="absolute -inset-1 rounded-[24px]"
               style={{
                 background:
-                  "linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 25%, transparent), color-mix(in oklab, var(--color-gold) 22%, transparent))",
+                  "linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 30%, transparent), color-mix(in oklab, var(--color-gold) 28%, transparent))",
               }}
             />
+
             <div className="relative h-full w-full overflow-hidden rounded-[22px] bg-muted shadow-luxe">
               <img
                 src={DOCTOR_IMAGE}
@@ -373,43 +414,70 @@ function Pill({ icon, children }: { icon: React.ReactNode; children: React.React
 
 // ───────────────────────── Trust Bar ─────────────────────────
 function TrustBar() {
-  const items = [
-    { value: "147+", label: "Verified Reviews" },
-    { value: "5.0★", label: "Google Rating" },
-    { value: "Thousands", label: "Patients Guided" },
-    { value: "100%", label: "Patient-Focused Care" },
+  const items: {
+    label: string;
+    counter?: { to: number; suffix?: string; prefix?: string };
+    text?: string;
+  }[] = [
+    { label: "Verified Reviews", counter: { to: 147, suffix: "+" } },
+    { label: "Google Rating", text: "5.0★" },
+    { label: "Patients Guided", text: "1000s" },
+    { label: "Patient-Focused", counter: { to: 100, suffix: "%" } },
   ];
   return (
-    <section aria-label="Trust" className="border-y border-border bg-surface">
-      <div className="container-luxe grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4 md:py-10">
+    <section aria-label="Trust" className="relative overflow-hidden border-y border-border bg-surface">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-gold) 70%, transparent), transparent)",
+        }}
+      />
+      <Stagger className="container-luxe grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4 md:py-10">
         {items.map((i) => (
-          <div key={i.label} className="text-center">
-            <div className="font-display text-[22px] font-700 tracking-tight text-foreground md:text-[28px]">
-              {i.value}
+          <motion.div
+            key={i.label}
+            variants={staggerChild}
+            className="text-center"
+          >
+            <div className="font-display text-[24px] font-700 tracking-tight text-foreground md:text-[30px]">
+              {i.counter ? (
+                <Counter
+                  to={i.counter.to}
+                  suffix={i.counter.suffix}
+                  prefix={i.counter.prefix}
+                />
+              ) : (
+                i.text
+              )}
             </div>
             <div className="mt-1 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
               {i.label}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }
 
+
 // ───────────────────────── About ─────────────────────────
 function About() {
   return (
-    <section id="about" className="py-20 md:py-28">
+    <section id="about" className="relative overflow-hidden py-20 md:py-28">
+      <GradientGlow className="-z-10 top-10 -left-32 h-[380px] w-[380px] opacity-40" />
       <div className="container-luxe grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-4">
+        <Reveal className="md:col-span-4">
           <SectionEyebrow>About the doctor</SectionEyebrow>
           <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-            Medicine, practiced with precision and patience.
+            Medicine, practiced with{" "}
+            <span className="text-gradient-gold">precision and patience.</span>
           </h2>
           <div className="gold-rule mt-6 w-24" />
-        </div>
-        <div className="md:col-span-7 md:col-start-6">
+        </Reveal>
+        <Reveal delay={0.1} className="md:col-span-7 md:col-start-6">
           <p className="text-[17px] leading-[1.75] text-foreground/80 md:text-[18px]">
             Dr. Tanveer Alam holds an MD in Medicine and has spent years
             guiding patients across Gorakhpur through diabetes, hypertension,
@@ -418,26 +486,36 @@ function About() {
             listening carefully, diagnosing accurately, and explaining
             clearly.
           </p>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            <Stat number="MD" label="Internal Medicine" />
-            <Stat number="5.0★" label="Patient Rating" />
-            <Stat number="147+" label="Verified Reviews" />
-            <Stat number="1:1" label="Personalized Consults" />
-          </div>
-        </div>
+          <Stagger className="mt-10 grid gap-6 sm:grid-cols-2">
+            <motion.div variants={staggerChild}><Stat number="MD" label="Internal Medicine" /></motion.div>
+            <motion.div variants={staggerChild}><Stat number="5.0★" label="Patient Rating" /></motion.div>
+            <motion.div variants={staggerChild}>
+              <div className="hairline group relative overflow-hidden rounded-2xl bg-background p-5 transition-all hover:-translate-y-1 hover:shadow-luxe">
+                <div className="font-display text-[26px] font-700 tracking-tight text-primary">
+                  <Counter to={147} suffix="+" />
+                </div>
+                <div className="mt-1 text-[13px] text-muted-foreground">Verified Reviews</div>
+              </div>
+            </motion.div>
+            <motion.div variants={staggerChild}><Stat number="1:1" label="Personalized Consults" /></motion.div>
+          </Stagger>
+        </Reveal>
       </div>
     </section>
   );
 }
 
+
 function Stat({ number, label }: { number: string; label: string }) {
   return (
-    <div className="hairline rounded-2xl bg-background p-5">
-      <div className="font-display text-[26px] font-700 tracking-tight text-primary">{number}</div>
-      <div className="mt-1 text-[13px] text-muted-foreground">{label}</div>
+    <div className="hairline group relative overflow-hidden rounded-2xl bg-background p-5 transition-all hover:-translate-y-1 hover:shadow-luxe">
+      <div className="absolute inset-0 -z-0 bg-gradient-to-br from-primary/0 to-gold/0 transition-all duration-500 group-hover:from-primary/5 group-hover:to-gold/10" />
+      <div className="relative font-display text-[26px] font-700 tracking-tight text-primary">{number}</div>
+      <div className="relative mt-1 text-[13px] text-muted-foreground">{label}</div>
     </div>
   );
 }
+
 
 function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -451,33 +529,34 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
 // ───────────────────────── Services ─────────────────────────
 function Services() {
   return (
-    <section id="services" className="bg-surface py-20 md:py-28">
-      <div className="container-luxe">
-        <div className="max-w-2xl">
+    <section id="services" className="relative overflow-hidden bg-surface py-20 md:py-28">
+      <GradientGlow className="-z-0 -top-40 right-0 h-[500px] w-[500px] opacity-30" />
+      <div className="container-luxe relative">
+        <Reveal className="max-w-2xl">
           <SectionEyebrow>Areas of care</SectionEyebrow>
           <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-            Comprehensive internal medicine, under one roof.
+            Comprehensive internal medicine,{" "}
+            <span className="text-gradient-gold">under one roof.</span>
           </h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted-foreground">
             From everyday concerns to long-term conditions — clear answers,
             unhurried consultations, and a treatment plan built around you.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, i) => (
+        <Stagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((s) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.04 }}
-              whileHover={{ y: -4 }}
-              className="group hairline relative overflow-hidden rounded-2xl bg-background p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow hover:shadow-luxe"
+              variants={staggerChild}
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              className="group glass-card relative overflow-hidden rounded-2xl p-6 transition-shadow hover:shadow-luxe"
             >
-              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/5 transition-transform duration-500 group-hover:scale-150" />
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 transition-transform duration-700 group-hover:scale-150" />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/8 text-primary ring-1 ring-primary/15">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                   <s.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-5 font-display text-[17px] font-700 tracking-tight">
@@ -489,7 +568,7 @@ function Services() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -498,19 +577,24 @@ function Services() {
 // ───────────────────────── Why Choose ─────────────────────────
 function WhyChoose() {
   return (
-    <section className="py-20 md:py-28">
-      <div className="container-luxe">
-        <div className="mx-auto max-w-2xl text-center">
+    <section className="relative overflow-hidden py-20 md:py-28">
+      <GradientGlow className="-z-0 top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-20" />
+      <div className="container-luxe relative">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Why Dr. Tanveer</SectionEyebrow>
           <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-            A different standard of care.
+            A different <span className="text-gradient-gold">standard of care.</span>
           </h2>
-        </div>
+        </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl bg-border md:grid-cols-3">
+        <Stagger className="mt-14 grid gap-px overflow-hidden rounded-3xl bg-border md:grid-cols-3">
           {reasons.map((r) => (
-            <div key={r.title} className="bg-background p-7 md:p-8">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-secondary ring-1 ring-gold/30">
+            <motion.div
+              key={r.title}
+              variants={staggerChild}
+              className="group relative overflow-hidden bg-background p-7 transition-colors duration-500 hover:bg-surface md:p-8"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-secondary ring-1 ring-gold/30 transition-all duration-500 group-hover:scale-110 group-hover:bg-gold group-hover:text-gold-foreground">
                 <r.icon className="h-4.5 w-4.5" />
               </div>
               <h3 className="mt-5 font-display text-[18px] font-700 tracking-tight">
@@ -519,9 +603,9 @@ function WhyChoose() {
               <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">
                 {r.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -530,51 +614,56 @@ function WhyChoose() {
 // ───────────────────────── Reviews ─────────────────────────
 function Reviews() {
   return (
-    <section id="reviews" className="relative overflow-hidden bg-secondary py-20 text-primary-foreground md:py-28">
+    <section id="reviews" className="relative overflow-hidden bg-secondary py-20 text-primary-foreground md:py-28 noise-overlay">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-30"
+        className="pointer-events-none absolute inset-0 opacity-40"
         style={{
           background:
-            "radial-gradient(50% 50% at 80% 0%, color-mix(in oklab, var(--color-gold) 30%, transparent), transparent 65%)",
+            "radial-gradient(50% 50% at 80% 0%, color-mix(in oklab, var(--color-gold) 30%, transparent), transparent 65%), radial-gradient(60% 50% at 0% 100%, color-mix(in oklab, var(--color-primary) 50%, transparent), transparent 60%)",
         }}
       />
+      <Particles count={20} />
       <div className="container-luxe relative">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div className="max-w-xl">
+          <Reveal className="max-w-xl">
             <div className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
               <span className="h-px w-6 bg-gold" />
               Patient stories
             </div>
             <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-              Loved by the Gorakhpur community.
+              Loved by the <span className="text-gold">Gorakhpur</span> community.
             </h2>
-          </div>
-          <div className="glass-card rounded-2xl px-5 py-4 text-foreground">
-            <div className="flex items-center gap-3">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-gold text-gold" />
-                ))}
-              </div>
-              <div>
-                <div className="text-[15px] font-700 leading-none">5.0 · Google</div>
-                <div className="mt-1 text-[11px] text-muted-foreground">147+ verified reviews</div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="glass-card rounded-2xl px-5 py-4 text-foreground">
+              <div className="flex items-center gap-3">
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-gold text-gold" />
+                  ))}
+                </div>
+                <div>
+                  <div className="text-[15px] font-700 leading-none">5.0 · Google</div>
+                  <div className="mt-1 text-[11px] text-muted-foreground">
+                    <Counter to={147} suffix="+ verified reviews" />
+                  </div>
+
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((r, i) => (
+        <Stagger className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {reviews.map((r) => (
             <motion.figure
               key={r.name}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+              variants={staggerChild}
+              whileHover={{ y: -4 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition-all hover:bg-white/[0.1] hover:border-gold/40"
             >
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <Quote className="h-5 w-5 text-gold/80" />
               <blockquote className="mt-3 text-[14.5px] leading-relaxed text-white/90">
                 {r.text}
@@ -594,19 +683,21 @@ function Reviews() {
               </figcaption>
             </motion.figure>
           ))}
-        </div>
+        </Stagger>
 
-        <div className="mt-12 flex flex-col items-center gap-4 text-center">
+        <Reveal className="mt-12 flex flex-col items-center gap-4 text-center">
           <p className="text-[14px] text-white/80">
             Join hundreds of patients who chose Dr. Tanveer for clarity and care.
           </p>
-          <a
-            href="#appointment"
-            className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-[1.02]"
-          >
-            Book Your Appointment <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+          <Magnetic strength={0.3}>
+            <a
+              href="#appointment"
+              className="btn-glow inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-[1.04]"
+            >
+              Book Your Appointment <ArrowRight className="h-4 w-4" />
+            </a>
+          </Magnetic>
+        </Reveal>
       </div>
     </section>
   );
@@ -639,17 +730,27 @@ function Appointment() {
   };
 
   return (
-    <section id="appointment" className="py-20 md:py-28">
+    <section id="appointment" className="relative overflow-hidden py-20 md:py-28">
+      <GradientGlow className="-z-10 top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-30" />
       <div className="container-luxe">
-        <div className="overflow-hidden rounded-3xl bg-foreground text-background shadow-luxe">
-          <div className="grid md:grid-cols-2">
+        <motion.div
+          initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="relative overflow-hidden rounded-3xl bg-foreground text-background shadow-luxe noise-overlay"
+        >
+          {/* animated gold edge */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <Particles count={14} />
+          <div className="relative grid md:grid-cols-2">
             <div className="relative overflow-hidden p-8 md:p-12">
               <div
                 aria-hidden
-                className="absolute inset-0 opacity-40"
+                className="absolute inset-0 opacity-50"
                 style={{
                   background:
-                    "radial-gradient(60% 50% at 0% 100%, color-mix(in oklab, var(--color-gold) 30%, transparent), transparent 60%)",
+                    "radial-gradient(60% 50% at 0% 100%, color-mix(in oklab, var(--color-gold) 35%, transparent), transparent 60%), radial-gradient(50% 50% at 100% 0%, color-mix(in oklab, var(--color-primary) 30%, transparent), transparent 60%)",
                 }}
               />
               <div className="relative">
@@ -658,22 +759,29 @@ function Appointment() {
                   Premium appointment
                 </div>
                 <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[40px]">
-                  Reserve your consultation in under a minute.
+                  Reserve your consultation in{" "}
+                  <span className="text-gold">under a minute.</span>
                 </h2>
                 <p className="mt-4 max-w-md text-[15px] leading-relaxed text-background/70">
                   Submit your details and we'll instantly open WhatsApp with a
                   pre-filled appointment request to our clinic.
                 </p>
 
-                <ul className="mt-8 space-y-3 text-[14px] text-background/85">
-                  <li className="flex items-center gap-3"><Clock className="h-4 w-4 text-gold" /> Same-day slots often available</li>
-                  <li className="flex items-center gap-3"><ShieldCheck className="h-4 w-4 text-gold" /> Confidential and secure</li>
-                  <li className="flex items-center gap-3"><MessageCircle className="h-4 w-4 text-gold" /> Direct WhatsApp confirmation</li>
-                </ul>
+                <Stagger className="mt-8 space-y-3 text-[14px] text-background/85">
+                  {[
+                    { icon: Clock, t: "Same-day slots often available" },
+                    { icon: ShieldCheck, t: "Confidential and secure" },
+                    { icon: MessageCircle, t: "Direct WhatsApp confirmation" },
+                  ].map((it) => (
+                    <motion.div key={it.t} variants={staggerChild} className="flex items-center gap-3">
+                      <it.icon className="h-4 w-4 text-gold" /> {it.t}
+                    </motion.div>
+                  ))}
+                </Stagger>
               </div>
             </div>
 
-            <form onSubmit={onSubmit} className="bg-background p-8 text-foreground md:p-12">
+            <form onSubmit={onSubmit} className="relative bg-background p-8 text-foreground md:p-12">
               <div className="grid gap-4">
                 <Field label="Full Name" name="name" placeholder="Your name" required />
                 <div className="grid grid-cols-2 gap-4">
@@ -683,25 +791,28 @@ function Appointment() {
                 <Field label="Concern" name="concern" placeholder="e.g. diabetes, fever, BP" required />
                 <Field label="Preferred Date" name="date" type="date" required />
 
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.01] disabled:opacity-70"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  {submitting ? "Opening WhatsApp…" : "Request via WhatsApp"}
-                </button>
+                <Magnetic strength={0.25}>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="btn-glow mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.02] disabled:opacity-70"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    {submitting ? "Opening WhatsApp…" : "Request via WhatsApp"}
+                  </button>
+                </Magnetic>
                 <p className="text-center text-[11.5px] text-muted-foreground">
                   By submitting you agree to be contacted regarding your appointment.
                 </p>
               </div>
             </form>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+
 
 function Field({
   label, name, type = "text", ...rest
