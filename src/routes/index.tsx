@@ -644,12 +644,11 @@ function Reviews() {
                   ))}
                 </div>
                 <div>
-                  <div className="text-[15px] font-700 leading-none">
-                    <Counter to={50} suffix=".0 · Google" duration={1200} />
-                  </div>
+                  <div className="text-[15px] font-700 leading-none">5.0 · Google</div>
                   <div className="mt-1 text-[11px] text-muted-foreground">
                     <Counter to={147} suffix="+ verified reviews" />
                   </div>
+
                 </div>
               </div>
             </div>
