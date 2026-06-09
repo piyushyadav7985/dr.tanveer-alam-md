@@ -614,51 +614,57 @@ function WhyChoose() {
 // ───────────────────────── Reviews ─────────────────────────
 function Reviews() {
   return (
-    <section id="reviews" className="relative overflow-hidden bg-secondary py-20 text-primary-foreground md:py-28">
+    <section id="reviews" className="relative overflow-hidden bg-secondary py-20 text-primary-foreground md:py-28 noise-overlay">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-30"
+        className="pointer-events-none absolute inset-0 opacity-40"
         style={{
           background:
-            "radial-gradient(50% 50% at 80% 0%, color-mix(in oklab, var(--color-gold) 30%, transparent), transparent 65%)",
+            "radial-gradient(50% 50% at 80% 0%, color-mix(in oklab, var(--color-gold) 30%, transparent), transparent 65%), radial-gradient(60% 50% at 0% 100%, color-mix(in oklab, var(--color-primary) 50%, transparent), transparent 60%)",
         }}
       />
+      <Particles count={20} />
       <div className="container-luxe relative">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div className="max-w-xl">
+          <Reveal className="max-w-xl">
             <div className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
               <span className="h-px w-6 bg-gold" />
               Patient stories
             </div>
             <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-              Loved by the Gorakhpur community.
+              Loved by the <span className="text-gold">Gorakhpur</span> community.
             </h2>
-          </div>
-          <div className="glass-card rounded-2xl px-5 py-4 text-foreground">
-            <div className="flex items-center gap-3">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-gold text-gold" />
-                ))}
-              </div>
-              <div>
-                <div className="text-[15px] font-700 leading-none">5.0 · Google</div>
-                <div className="mt-1 text-[11px] text-muted-foreground">147+ verified reviews</div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="glass-card rounded-2xl px-5 py-4 text-foreground">
+              <div className="flex items-center gap-3">
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-gold text-gold" />
+                  ))}
+                </div>
+                <div>
+                  <div className="text-[15px] font-700 leading-none">
+                    <Counter to={50} suffix=".0 · Google" duration={1200} />
+                  </div>
+                  <div className="mt-1 text-[11px] text-muted-foreground">
+                    <Counter to={147} suffix="+ verified reviews" />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((r, i) => (
+        <Stagger className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {reviews.map((r) => (
             <motion.figure
               key={r.name}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+              variants={staggerChild}
+              whileHover={{ y: -4 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition-all hover:bg-white/[0.1] hover:border-gold/40"
             >
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <Quote className="h-5 w-5 text-gold/80" />
               <blockquote className="mt-3 text-[14.5px] leading-relaxed text-white/90">
                 {r.text}
@@ -678,19 +684,21 @@ function Reviews() {
               </figcaption>
             </motion.figure>
           ))}
-        </div>
+        </Stagger>
 
-        <div className="mt-12 flex flex-col items-center gap-4 text-center">
+        <Reveal className="mt-12 flex flex-col items-center gap-4 text-center">
           <p className="text-[14px] text-white/80">
             Join hundreds of patients who chose Dr. Tanveer for clarity and care.
           </p>
-          <a
-            href="#appointment"
-            className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-[1.02]"
-          >
-            Book Your Appointment <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+          <Magnetic strength={0.3}>
+            <a
+              href="#appointment"
+              className="btn-glow inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-gold-foreground transition-transform hover:scale-[1.04]"
+            >
+              Book Your Appointment <ArrowRight className="h-4 w-4" />
+            </a>
+          </Magnetic>
+        </Reveal>
       </div>
     </section>
   );
