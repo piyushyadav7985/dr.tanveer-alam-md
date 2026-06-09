@@ -414,29 +414,54 @@ function Pill({ icon, children }: { icon: React.ReactNode; children: React.React
 
 // ───────────────────────── Trust Bar ─────────────────────────
 function TrustBar() {
-  const items = [
-    { value: "147+", label: "Verified Reviews" },
-    { value: "5.0★", label: "Google Rating" },
-    { value: "Thousands", label: "Patients Guided" },
-    { value: "100%", label: "Patient-Focused Care" },
+  const items: {
+    label: string;
+    counter?: { to: number; suffix?: string; prefix?: string };
+    text?: string;
+  }[] = [
+    { label: "Verified Reviews", counter: { to: 147, suffix: "+" } },
+    { label: "Google Rating", text: "5.0★" },
+    { label: "Patients Guided", text: "1000s" },
+    { label: "Patient-Focused", counter: { to: 100, suffix: "%" } },
   ];
   return (
-    <section aria-label="Trust" className="border-y border-border bg-surface">
-      <div className="container-luxe grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4 md:py-10">
+    <section aria-label="Trust" className="relative overflow-hidden border-y border-border bg-surface">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-gold) 70%, transparent), transparent)",
+        }}
+      />
+      <Stagger className="container-luxe grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4 md:py-10">
         {items.map((i) => (
-          <div key={i.label} className="text-center">
-            <div className="font-display text-[22px] font-700 tracking-tight text-foreground md:text-[28px]">
-              {i.value}
+          <motion.div
+            key={i.label}
+            variants={staggerChild}
+            className="text-center"
+          >
+            <div className="font-display text-[24px] font-700 tracking-tight text-foreground md:text-[30px]">
+              {i.counter ? (
+                <Counter
+                  to={i.counter.to}
+                  suffix={i.counter.suffix}
+                  prefix={i.counter.prefix}
+                />
+              ) : (
+                i.text
+              )}
             </div>
             <div className="mt-1 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground">
               {i.label}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }
+
 
 // ───────────────────────── About ─────────────────────────
 function About() {
