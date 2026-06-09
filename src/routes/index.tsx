@@ -291,40 +291,53 @@ function Hero() {
 
           {/* CTAs */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#appointment"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.02]"
-            >
-              Book an Appointment
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href={`tel:${PHONE}`}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-background px-6 py-3.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-            >
-              <Phone className="h-4 w-4" /> {PHONE_DISPLAY}
-            </a>
+            <Magnetic strength={0.3} className="inline-block">
+              <a
+                href="#appointment"
+                className="btn-glow group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.03]"
+              >
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                Book an Appointment
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.2} className="inline-block">
+              <a
+                href={`tel:${PHONE}`}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-foreground/15 bg-background/80 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur transition-all hover:bg-muted hover:scale-[1.02]"
+              >
+                <Phone className="h-4 w-4" /> {PHONE_DISPLAY}
+              </a>
+            </Magnetic>
           </div>
         </motion.div>
 
         {/* Right — portrait */}
         <motion.div
           style={{ y }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, scale: 0.92, filter: "blur(12px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           className="relative md:col-span-5"
         >
           <div className="relative mx-auto aspect-[4/5] w-full max-w-[440px]">
+            {/* rotating conic glow ring */}
+            <div className="absolute -inset-6 rounded-[32px] opacity-60 blur-2xl animate-spin-slow"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, color-mix(in oklab, var(--color-gold) 60%, transparent), color-mix(in oklab, var(--color-primary) 50%, transparent), color-mix(in oklab, var(--color-gold) 60%, transparent))",
+              }}
+            />
             {/* gold frame accent */}
-            <div className="absolute -inset-3 rounded-[28px] border border-gold/30" />
+            <div className="absolute -inset-3 rounded-[28px] border border-gold/40" />
             <div
               className="absolute -inset-1 rounded-[24px]"
               style={{
                 background:
-                  "linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 25%, transparent), color-mix(in oklab, var(--color-gold) 22%, transparent))",
+                  "linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 30%, transparent), color-mix(in oklab, var(--color-gold) 28%, transparent))",
               }}
             />
+
             <div className="relative h-full w-full overflow-hidden rounded-[22px] bg-muted shadow-luxe">
               <img
                 src={DOCTOR_IMAGE}
