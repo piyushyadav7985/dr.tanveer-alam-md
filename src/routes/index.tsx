@@ -466,16 +466,18 @@ function TrustBar() {
 // ───────────────────────── About ─────────────────────────
 function About() {
   return (
-    <section id="about" className="py-20 md:py-28">
+    <section id="about" className="relative overflow-hidden py-20 md:py-28">
+      <GradientGlow className="-z-10 top-10 -left-32 h-[380px] w-[380px] opacity-40" />
       <div className="container-luxe grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-4">
+        <Reveal className="md:col-span-4">
           <SectionEyebrow>About the doctor</SectionEyebrow>
           <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-            Medicine, practiced with precision and patience.
+            Medicine, practiced with{" "}
+            <span className="text-gradient-gold">precision and patience.</span>
           </h2>
           <div className="gold-rule mt-6 w-24" />
-        </div>
-        <div className="md:col-span-7 md:col-start-6">
+        </Reveal>
+        <Reveal delay={0.1} className="md:col-span-7 md:col-start-6">
           <p className="text-[17px] leading-[1.75] text-foreground/80 md:text-[18px]">
             Dr. Tanveer Alam holds an MD in Medicine and has spent years
             guiding patients across Gorakhpur through diabetes, hypertension,
@@ -484,17 +486,25 @@ function About() {
             listening carefully, diagnosing accurately, and explaining
             clearly.
           </p>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            <Stat number="MD" label="Internal Medicine" />
-            <Stat number="5.0★" label="Patient Rating" />
-            <Stat number="147+" label="Verified Reviews" />
-            <Stat number="1:1" label="Personalized Consults" />
-          </div>
-        </div>
+          <Stagger className="mt-10 grid gap-6 sm:grid-cols-2">
+            <motion.div variants={staggerChild}><Stat number="MD" label="Internal Medicine" /></motion.div>
+            <motion.div variants={staggerChild}><Stat number="5.0★" label="Patient Rating" /></motion.div>
+            <motion.div variants={staggerChild}>
+              <div className="hairline group relative overflow-hidden rounded-2xl bg-background p-5 transition-all hover:-translate-y-1 hover:shadow-luxe">
+                <div className="font-display text-[26px] font-700 tracking-tight text-primary">
+                  <Counter to={147} suffix="+" />
+                </div>
+                <div className="mt-1 text-[13px] text-muted-foreground">Verified Reviews</div>
+              </div>
+            </motion.div>
+            <motion.div variants={staggerChild}><Stat number="1:1" label="Personalized Consults" /></motion.div>
+          </Stagger>
+        </Reveal>
       </div>
     </section>
   );
 }
+
 
 function Stat({ number, label }: { number: string; label: string }) {
   return (
