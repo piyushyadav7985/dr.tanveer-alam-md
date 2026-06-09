@@ -730,17 +730,27 @@ function Appointment() {
   };
 
   return (
-    <section id="appointment" className="py-20 md:py-28">
+    <section id="appointment" className="relative overflow-hidden py-20 md:py-28">
+      <GradientGlow className="-z-10 top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-30" />
       <div className="container-luxe">
-        <div className="overflow-hidden rounded-3xl bg-foreground text-background shadow-luxe">
-          <div className="grid md:grid-cols-2">
+        <motion.div
+          initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="relative overflow-hidden rounded-3xl bg-foreground text-background shadow-luxe noise-overlay"
+        >
+          {/* animated gold edge */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <Particles count={14} />
+          <div className="relative grid md:grid-cols-2">
             <div className="relative overflow-hidden p-8 md:p-12">
               <div
                 aria-hidden
-                className="absolute inset-0 opacity-40"
+                className="absolute inset-0 opacity-50"
                 style={{
                   background:
-                    "radial-gradient(60% 50% at 0% 100%, color-mix(in oklab, var(--color-gold) 30%, transparent), transparent 60%)",
+                    "radial-gradient(60% 50% at 0% 100%, color-mix(in oklab, var(--color-gold) 35%, transparent), transparent 60%), radial-gradient(50% 50% at 100% 0%, color-mix(in oklab, var(--color-primary) 30%, transparent), transparent 60%)",
                 }}
               />
               <div className="relative">
@@ -749,22 +759,29 @@ function Appointment() {
                   Premium appointment
                 </div>
                 <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[40px]">
-                  Reserve your consultation in under a minute.
+                  Reserve your consultation in{" "}
+                  <span className="text-gold">under a minute.</span>
                 </h2>
                 <p className="mt-4 max-w-md text-[15px] leading-relaxed text-background/70">
                   Submit your details and we'll instantly open WhatsApp with a
                   pre-filled appointment request to our clinic.
                 </p>
 
-                <ul className="mt-8 space-y-3 text-[14px] text-background/85">
-                  <li className="flex items-center gap-3"><Clock className="h-4 w-4 text-gold" /> Same-day slots often available</li>
-                  <li className="flex items-center gap-3"><ShieldCheck className="h-4 w-4 text-gold" /> Confidential and secure</li>
-                  <li className="flex items-center gap-3"><MessageCircle className="h-4 w-4 text-gold" /> Direct WhatsApp confirmation</li>
-                </ul>
+                <Stagger className="mt-8 space-y-3 text-[14px] text-background/85">
+                  {[
+                    { icon: Clock, t: "Same-day slots often available" },
+                    { icon: ShieldCheck, t: "Confidential and secure" },
+                    { icon: MessageCircle, t: "Direct WhatsApp confirmation" },
+                  ].map((it) => (
+                    <motion.div key={it.t} variants={staggerChild} className="flex items-center gap-3">
+                      <it.icon className="h-4 w-4 text-gold" /> {it.t}
+                    </motion.div>
+                  ))}
+                </Stagger>
               </div>
             </div>
 
-            <form onSubmit={onSubmit} className="bg-background p-8 text-foreground md:p-12">
+            <form onSubmit={onSubmit} className="relative bg-background p-8 text-foreground md:p-12">
               <div className="grid gap-4">
                 <Field label="Full Name" name="name" placeholder="Your name" required />
                 <div className="grid grid-cols-2 gap-4">
@@ -774,25 +791,28 @@ function Appointment() {
                 <Field label="Concern" name="concern" placeholder="e.g. diabetes, fever, BP" required />
                 <Field label="Preferred Date" name="date" type="date" required />
 
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.01] disabled:opacity-70"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  {submitting ? "Opening WhatsApp…" : "Request via WhatsApp"}
-                </button>
+                <Magnetic strength={0.25}>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="btn-glow mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-luxe transition-transform hover:scale-[1.02] disabled:opacity-70"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    {submitting ? "Opening WhatsApp…" : "Request via WhatsApp"}
+                  </button>
+                </Magnetic>
                 <p className="text-center text-[11.5px] text-muted-foreground">
                   By submitting you agree to be contacted regarding your appointment.
                 </p>
               </div>
             </form>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+
 
 function Field({
   label, name, type = "text", ...rest
