@@ -216,16 +216,24 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
-    <section id="top" ref={ref} className="relative overflow-hidden">
-      {/* subtle medical pattern */}
+    <section id="top" ref={ref} className="relative overflow-hidden noise-overlay">
+      {/* layered radial wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.45]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.55]"
         style={{
           background:
-            "radial-gradient(60% 50% at 80% 0%, color-mix(in oklab, var(--color-primary) 10%, transparent), transparent 60%), radial-gradient(50% 40% at 0% 100%, color-mix(in oklab, var(--color-gold) 12%, transparent), transparent 60%)",
+            "radial-gradient(60% 50% at 80% 0%, color-mix(in oklab, var(--color-primary) 14%, transparent), transparent 60%), radial-gradient(50% 40% at 0% 100%, color-mix(in oklab, var(--color-gold) 14%, transparent), transparent 60%)",
         }}
       />
+      {/* animated glow blobs */}
+      <GradientGlow className="-z-10 -top-32 -right-32 h-[520px] w-[520px]" />
+      <GradientGlow
+        className="-z-10 -bottom-40 -left-32 h-[460px] w-[460px]"
+        from="var(--color-gold)"
+        to="var(--color-secondary)"
+      />
+      {/* grid pattern */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.05]"
@@ -237,25 +245,36 @@ function Hero() {
             "radial-gradient(ellipse at center, black 30%, transparent 75%)",
         }}
       />
+      {/* floating particles */}
+      <Particles count={26} className="-z-10" />
 
       <div className="container-luxe grid items-center gap-10 py-14 md:grid-cols-12 md:gap-12 md:py-24 lg:py-28">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
           className="md:col-span-7"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-secondary">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-secondary backdrop-blur"
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
+            </span>
             Trusted Physician · Gorakhpur
-          </div>
+          </motion.div>
 
-          <h1 className="mt-6 font-display text-[42px] font-700 leading-[1.04] tracking-tight text-foreground text-balance md:text-[64px] lg:text-[76px]">
-            Dr. Tanveer Alam
+          <h1 className="mt-6 font-display text-[42px] font-700 leading-[1.04] tracking-tight text-balance md:text-[64px] lg:text-[76px]">
+            <span className="text-gradient-gold">Dr. Tanveer Alam</span>
             <span className="mt-2 block text-[18px] font-500 tracking-[0.18em] text-secondary uppercase md:text-[15px]">
               MD · Medicine
             </span>
           </h1>
+
 
           <p className="mt-6 max-w-xl text-[16px] leading-relaxed text-muted-foreground md:text-[18px]">
             Precise diagnosis. Evidence-based treatment. A calmer, more
