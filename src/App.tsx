@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, type FormEvent } from "react";
 import {
@@ -42,58 +41,6 @@ const ADDRESS = "Dasharibag, Rasoolpur, Gorakhnath, Gorakhpur, Uttar Pradesh";
 const MAPS_URL =
   "https://www.google.com/maps/place/Dr.Tanveer+Alam+(MD)+medicine/@26.7741222,83.3523423,17z";
 const DOCTOR_IMAGE = doctorAsset.url;
-
-const SITE_TITLE =
-  "Dr. Tanveer Alam (MD Medicine) — Trusted Physician in Gorakhpur";
-const SITE_DESC =
-  "Premium internal medicine care by Dr. Tanveer Alam, MD. Evidence-based treatment for diabetes, hypertension, respiratory and lifestyle conditions in Gorakhpur. 5.0★ Google rating, 147+ verified reviews.";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: SITE_TITLE },
-      { name: "description", content: SITE_DESC },
-      { name: "keywords", content: "Dr Tanveer Alam, MD Medicine Gorakhpur, physician Gorakhpur, diabetes doctor Gorakhpur, best general physician Gorakhnath" },
-      { property: "og:title", content: SITE_TITLE },
-      { property: "og:description", content: SITE_DESC },
-      { property: "og:image", content: DOCTOR_IMAGE },
-      { property: "og:url", content: "/" },
-      { name: "twitter:title", content: SITE_TITLE },
-      { name: "twitter:description", content: SITE_DESC },
-      { name: "twitter:image", content: DOCTOR_IMAGE },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": ["Physician", "MedicalBusiness", "LocalBusiness"],
-          name: "Dr. Tanveer Alam (MD Medicine)",
-          image: DOCTOR_IMAGE,
-          telephone: PHONE,
-          priceRange: "₹₹",
-          medicalSpecialty: "InternalMedicine",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "Dasharibag, Rasoolpur, Gorakhnath",
-            addressLocality: "Gorakhpur",
-            addressRegion: "Uttar Pradesh",
-            addressCountry: "IN",
-          },
-          geo: { "@type": "GeoCoordinates", latitude: 26.7741222, longitude: 83.3523423 },
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "5.0",
-            reviewCount: "147",
-          },
-          url: "/",
-        }),
-      },
-    ],
-  }),
-  component: Home,
-});
 
 // ───────────────────────── helpers ─────────────────────────
 const services = [
@@ -149,7 +96,7 @@ const faqs = [
 ];
 
 // ───────────────────────── component ─────────────────────────
-function Home() {
+export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
       <Nav />
