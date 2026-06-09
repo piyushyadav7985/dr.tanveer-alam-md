@@ -23,7 +23,7 @@ import {
   Clock,
   Quote,
 } from "lucide-react";
-import doctorAsset from "@/assets/dr-tanveer.png.asset.json";
+import doctorAsset from "https://i.ibb.co/DDFZ406D/Screenshot-2026-06-10-001839.png";
 import {
   Reveal,
   Stagger,
