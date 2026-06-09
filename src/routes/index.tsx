@@ -529,33 +529,34 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
 // ───────────────────────── Services ─────────────────────────
 function Services() {
   return (
-    <section id="services" className="bg-surface py-20 md:py-28">
-      <div className="container-luxe">
-        <div className="max-w-2xl">
+    <section id="services" className="relative overflow-hidden bg-surface py-20 md:py-28">
+      <GradientGlow className="-z-0 -top-40 right-0 h-[500px] w-[500px] opacity-30" />
+      <div className="container-luxe relative">
+        <Reveal className="max-w-2xl">
           <SectionEyebrow>Areas of care</SectionEyebrow>
           <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-            Comprehensive internal medicine, under one roof.
+            Comprehensive internal medicine,{" "}
+            <span className="text-gradient-gold">under one roof.</span>
           </h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted-foreground">
             From everyday concerns to long-term conditions — clear answers,
             unhurried consultations, and a treatment plan built around you.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, i) => (
+        <Stagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((s) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.04 }}
-              whileHover={{ y: -4 }}
-              className="group hairline relative overflow-hidden rounded-2xl bg-background p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow hover:shadow-luxe"
+              variants={staggerChild}
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              className="group glass-card relative overflow-hidden rounded-2xl p-6 transition-shadow hover:shadow-luxe"
             >
-              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/5 transition-transform duration-500 group-hover:scale-150" />
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 transition-transform duration-700 group-hover:scale-150" />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/8 text-primary ring-1 ring-primary/15">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                   <s.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-5 font-display text-[17px] font-700 tracking-tight">
@@ -567,7 +568,7 @@ function Services() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -576,19 +577,24 @@ function Services() {
 // ───────────────────────── Why Choose ─────────────────────────
 function WhyChoose() {
   return (
-    <section className="py-20 md:py-28">
-      <div className="container-luxe">
-        <div className="mx-auto max-w-2xl text-center">
+    <section className="relative overflow-hidden py-20 md:py-28">
+      <GradientGlow className="-z-0 top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-20" />
+      <div className="container-luxe relative">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Why Dr. Tanveer</SectionEyebrow>
           <h2 className="mt-4 font-display text-[34px] font-700 leading-[1.08] tracking-tight md:text-[44px]">
-            A different standard of care.
+            A different <span className="text-gradient-gold">standard of care.</span>
           </h2>
-        </div>
+        </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl bg-border md:grid-cols-3">
+        <Stagger className="mt-14 grid gap-px overflow-hidden rounded-3xl bg-border md:grid-cols-3">
           {reasons.map((r) => (
-            <div key={r.title} className="bg-background p-7 md:p-8">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-secondary ring-1 ring-gold/30">
+            <motion.div
+              key={r.title}
+              variants={staggerChild}
+              className="group relative overflow-hidden bg-background p-7 transition-colors duration-500 hover:bg-surface md:p-8"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15 text-secondary ring-1 ring-gold/30 transition-all duration-500 group-hover:scale-110 group-hover:bg-gold group-hover:text-gold-foreground">
                 <r.icon className="h-4.5 w-4.5" />
               </div>
               <h3 className="mt-5 font-display text-[18px] font-700 tracking-tight">
@@ -597,9 +603,9 @@ function WhyChoose() {
               <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">
                 {r.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
