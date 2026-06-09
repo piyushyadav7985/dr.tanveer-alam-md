@@ -508,12 +508,14 @@ function About() {
 
 function Stat({ number, label }: { number: string; label: string }) {
   return (
-    <div className="hairline rounded-2xl bg-background p-5">
-      <div className="font-display text-[26px] font-700 tracking-tight text-primary">{number}</div>
-      <div className="mt-1 text-[13px] text-muted-foreground">{label}</div>
+    <div className="hairline group relative overflow-hidden rounded-2xl bg-background p-5 transition-all hover:-translate-y-1 hover:shadow-luxe">
+      <div className="absolute inset-0 -z-0 bg-gradient-to-br from-primary/0 to-gold/0 transition-all duration-500 group-hover:from-primary/5 group-hover:to-gold/10" />
+      <div className="relative font-display text-[26px] font-700 tracking-tight text-primary">{number}</div>
+      <div className="relative mt-1 text-[13px] text-muted-foreground">{label}</div>
     </div>
   );
 }
+
 
 function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
